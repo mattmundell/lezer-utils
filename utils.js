@@ -1,6 +1,7 @@
 import * as Fs from 'fs'
 import * as Path from 'path'
 import { Command } from 'commander'
+import * as CMState from '@codemirror/state'
 
 export
 function parse
@@ -57,8 +58,20 @@ function check
 }
 
 function printFails
-(path, fails) {
-  fails.forEach(fail => console.log(path + ':' + fail.from + ': error: failed to parse'))
+(path, tree, fails) {
+  let text, state
+
+  text = Fs.readFileSync(path, { encoding: 'utf8' })
+  //console.log({ text })
+  state = CMState.EditorState.create({ doc: text || '' })
+  if (tree.length == state.doc.length) {
+    // parse was complete
+  }
+  else
+    console.log(path + ':0:0: error: tree partially covers doc')
+  fails.forEach(fail => {
+    console.log(path + ':' + fail.from + ': error: failed to parse')
+  })
 }
 
 // returns number failed
@@ -80,7 +93,7 @@ function checkDir
       fails = check(res.tree)
       if (fails) {
         count++
-        printFails(path, fails)
+        printFails(path, res.tree, fails)
         //throw 'parse failed'
       }
     }
@@ -98,7 +111,7 @@ function checkFile
   res = parse(lr, path)
   fails = check(res.tree)
   if (fails) {
-    printFails(path, fails)
+    printFails(path, res.tree, fails)
     return 1
   }
   return 0
