@@ -45,15 +45,20 @@ export
 function check
 (tree) {
   let fail
-  fail = 0
+  fail = []
   tree.iterate({enter: node => {
     if (node.type.isError) {
-      fail = 1
+      fail.push({ from: node.from })
       return 0
     }
     return 1
   }})
-  return fail
+  return fail.length ? fail : 0
+}
+
+function printFails
+(path, fails) {
+  fails.forEach(fail => console.log(path + ':' + fail.from + ': error: failed to parse'))
 }
 
 // returns number failed
@@ -67,14 +72,15 @@ function checkDir
   count = 0
   data.forEach(name => {
     if (name.endsWith('.zig')) {
-      let res, path
+      let res, path, fails
 
       path = Path.join(dir, name)
       res = parse(lr, path)
-      console.log(path + ' ' + res.content.length)
-      if (check(res.tree)) {
+      console.log(path + ' (' + res.content.length + ' bytes)')
+      fails = check(res.tree)
+      if (fails) {
         count++
-        console.log(path + ': error: ' + 'failed to parse')
+        printFails(path, fails)
         //throw 'parse failed'
       }
     }
@@ -87,11 +93,12 @@ function checkDir
 export
 function checkFile
 (lr, path) {
-  let res
+  let res, fails
 
   res = parse(lr, path)
-  if (check(res.tree)) {
-    console.log(path + ': error: ' + 'failed to parse')
+  fails = check(res.tree)
+  if (fails) {
+    printFails(path, fails)
     return 1
   }
   return 0
@@ -138,7 +145,7 @@ function mainChk
     console.log('Checking ' + path)
     count = checkFileOrDir(lr, path, opts.recurse)
     if (count) {
-      console.log('\nFAILED: ' + count)
+      console.log('\nFAILED: ' + count + ' file')
       process.exitCode = 2
     }
     else
