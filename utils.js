@@ -64,13 +64,20 @@ function printFails
   text = Fs.readFileSync(path, { encoding: 'utf8' })
   //console.log({ text })
   state = CMState.EditorState.create({ doc: text || '' })
+
   if (tree.length == state.doc.length) {
     // parse was complete
   }
   else
     console.log(path + ':0:0: error: tree partially covers doc')
+
   fails.forEach(fail => {
-    console.log(path + ':' + fail.from + ': error: failed to parse')
+    let line, col
+
+    line = state.doc.lineAt(fail.from)
+    col = (fail.from - line.from) + 1
+
+    console.log(path + ':' + line.number + ':' + col + ': error: failed to parse')
   })
 }
 
