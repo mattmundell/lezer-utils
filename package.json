@@ -1,0 +1,26 @@
+{
+  "name": "lezer-utils",
+  "version": "0.1.0",
+  "description": "Utils for working with Lezer grammars",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.sr.ht/~mattmundell/codemirror-lang-eg"
+  },
+  "type": "module",
+  "author": "Matt Mundell",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.21.2"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  }
+}
