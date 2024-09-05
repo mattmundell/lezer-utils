@@ -143,7 +143,8 @@ function mainShow
     let res
 
     res = parse(lr, file)
-    console.log('tree.length: ' + res.tree.length)
+    console.log('tree contains error: ' + (check(res.tree) ? 'yes' : 'no'))
+    console.log('tree length: ' + res.tree.length)
     console.log('tree:')
     console.log(pretty(res.tree.topNode))
   }
