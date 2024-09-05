@@ -94,10 +94,14 @@ function checkDir
 
   count = 0
   data.forEach(name => {
-    if (ext ? name.endsWith(ext) : 1) {
-      let res, path, fails
+    let path, stats
 
-      path = Path.join(dir, name)
+    path = Path.join(dir, name)
+    stats = Fs.statSync(path)
+    if ((stats.mode & (1 << 15)) // is it a file?
+        && (ext ? name.endsWith(ext) : 1)) {
+      let res, fails
+
       res = parse(lr, path)
       console.log(path + ' (' + res.content.length + ' bytes)')
       fails = check(res.tree)
