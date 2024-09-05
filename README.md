@@ -29,7 +29,7 @@ mainChk(lr)
 
 then use `chk` to test the parser against a dir:
 ```
-$ ~/src/codemirror-lang-zig/bin/chk -r ~/src/zig/src/link/tapi/
+$ ./bin/chk -r ~/src/zig/src/link/tapi/ --ext zig
 Checking /home/you/src/zig/src/link/tapi/
 /home/you/src/zig/src/link/tapi/Tokenizer.zig 13087
 /home/you/src/zig/src/link/tapi/parse.zig 23795
@@ -73,4 +73,11 @@ Program(pub,
                                                                          ContainerField(Identifier,
                                                                                         TypeExpr(Identifier)),
                                                                          ContainerField(Identifier,
+```
+
+## Build from source
+
+```
+npm i
+npm run prepare
 ```
