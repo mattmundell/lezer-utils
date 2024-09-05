@@ -140,10 +140,15 @@ function mainShow
 (lr) {
   function run
   (file) {
-    let res
+    let res, text, state
 
     res = parse(lr, file)
+
+    text = Fs.readFileSync(file, { encoding: 'utf8' })
+    state = CMState.EditorState.create({ doc: text || '' })
+
     console.log('tree contains error: ' + (check(res.tree) ? 'yes' : 'no'))
+    console.log('tree covers source: ' + ((res.tree.length == state.doc.length) ? 'yes' : 'no'))
     console.log('tree length: ' + res.tree.length)
     console.log('tree:')
     console.log(pretty(res.tree.topNode))
