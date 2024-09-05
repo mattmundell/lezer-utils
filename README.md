@@ -51,7 +51,7 @@ import { lr } from '../dist/index.js'
 mainShow(lr)
 ```
 
-then use `show` to test the parser against a dir:
+then use `show` to print the tree:
 ```
 $ ./bin/show ~/src/zig/lib/std/os/uefi/tables/table_header.zig
 tree contains error: no
