@@ -14,7 +14,9 @@ export const lr = zigLanguage
 export const language = zig
 ```
 
-## Example
+## Examples
+
+### Check a dir
 
 In your grammar package, add bin/chk containing this:
 
@@ -36,4 +38,39 @@ Checking /home/you/src/zig/src/link/tapi/
 /home/you/src/zig/src/link/tapi/yaml/test.zig 12873
 
 ALL GOOD
+```
+
+### Print a tree
+
+In your grammar package, add bin/show containing this:
+
+```js
+#!/usr/bin/env node
+import { mainShow } from 'lezer-utils'
+import { lr } from '../dist/index.js'
+mainShow(lr)
+```
+
+then use `show` to test the parser against a dir:
+```
+$ ./bin/show ~/src/zig/lib/std/os/uefi/tables/table_header.zig
+tree contains error: no
+tree covers source: yes
+tree length: 214
+tree:
+Program(pub,
+        Decl(GlobalVarDecl(VarDeclProto(const,
+                                        Name),
+                           Expr(TypeExpr(ContainerDecl(extern,
+                                                       ContainerDeclAuto(ContainerDeclType(struct),
+                                                                         ContainerField(Identifier,
+                                                                                        TypeExpr(Identifier)),
+                                                                         ContainerField(Identifier,
+                                                                                        TypeExpr(Identifier)),
+                                                                         ContainerField(DocComment,
+                                                                                        Identifier,
+                                                                                        TypeExpr(Identifier)),
+                                                                         ContainerField(Identifier,
+                                                                                        TypeExpr(Identifier)),
+                                                                         ContainerField(Identifier,
 ```
