@@ -73,6 +73,7 @@ Program(pub,
                                                                          ContainerField(Identifier,
                                                                                         TypeExpr(Identifier)),
                                                                          ContainerField(Identifier,
+                                                                                        TypeExpr(Identifier)))))))))
 ```
 
 ## Build from source
