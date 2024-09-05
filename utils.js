@@ -84,14 +84,17 @@ function printFails
 // returns number failed
 export
 function checkDir
-(lr, dir, recursive) {
-  let data, count
+(lr, dir, opts) {
+  let data, count, ext
 
-  data = Fs.readdirSync(dir, { recursive: recursive ? true : false })
+  data = Fs.readdirSync(dir, { recursive: opts?.recurse ? true : false })
+
+  if (opts?.ext)
+    ext = '.' + opts.ext
 
   count = 0
   data.forEach(name => {
-    if (name.endsWith('.zig')) {
+    if (ext ? name.endsWith(ext) : 1) {
       let res, path, fails
 
       path = Path.join(dir, name)
@@ -126,13 +129,13 @@ function checkFile
 
 export
 function checkFileOrDir
-(lr, path, recurse) {
+(lr, path, opts) {
   let stats
 
   stats = Fs.statSync(path)
   if (stats.mode & (1 << 15))
     return checkFile(lr, path)
-  return checkDir(lr, path, recurse)
+  return checkDir(lr, path, opts)
 }
 
 export
@@ -169,7 +172,7 @@ function mainChk
     let count
 
     console.log('Checking ' + path)
-    count = checkFileOrDir(lr, path, opts.recurse)
+    count = checkFileOrDir(lr, path, { ext: opts.ext, recurse: opts.recurse })
     if (count) {
       console.log('\nFAILED: ' + count + ' file')
       process.exitCode = 2
@@ -182,6 +185,7 @@ function mainChk
     .description('Check the parser against a file or dir')
     .argument('<path>', 'file or directory')
     .option('-r, --recurse')
+    .option('-e, --ext <extension>', 'file ext when checking dir')
     .action(run)
     .parse()
 }
