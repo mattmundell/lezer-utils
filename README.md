@@ -1,5 +1,19 @@
 Utils for working with [Lezer](https://lezer.codemirror.net) grammars.
 
+## Requirements
+
+Your grammar package must export your `LRLanguage` as `lr`, and your support function as `language`.
+```typescript
+export const zigLanguage = LRLanguage.define({ ... })
+export function zig() {
+  return new LanguageSupport(zigLanguage)
+}
+
+// You'll probably need to add something like this.
+export const lr = zigLanguage
+export const language = zig
+```
+
 ## Example
 
 In your grammar package, add bin/chk containing this:
