@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@codemirror/state": "^6.4.1",
+    "@cookshack/codemirror-lang-lezer-tree": "file:../codemirror-lang-lezer-tree",
     "commander": "^12.1.0"
   }
 }
