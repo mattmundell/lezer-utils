@@ -69,7 +69,13 @@ function checkDir
     let path, stats
 
     path = Path.join(dir, name)
-    stats = Fs.statSync(path)
+    try {
+      stats = Fs.statSync(path)
+    }
+    catch (err) {
+      console.log(err.message)
+      return
+    }
     if ((stats.mode & (1 << 15)) // is it a file?
         && (ext ? name.endsWith(ext) : 1)) {
       let res, fails
@@ -108,7 +114,13 @@ function checkFileOrDir
 (lr, path, opts) {
   let stats
 
-  stats = Fs.statSync(path)
+  try {
+    stats = Fs.statSync(path)
+  }
+  catch (err) {
+    console.log(err.message)
+    return
+  }
   if (stats.mode & (1 << 15))
     return checkFile(lr, path)
   return checkDir(lr, path, opts)
