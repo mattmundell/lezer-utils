@@ -1,6 +1,6 @@
 {
   "name": "lezer-utils",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Utils for working with Lezer grammars",
   "homepage": "https://git.sr.ht/~mattmundell/lezer-utils",
   "main": "dist/index.cjs",
