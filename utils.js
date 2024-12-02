@@ -1,7 +1,6 @@
 import * as Fs from 'fs'
 import * as Path from 'path'
 import { Command } from 'commander'
-import * as CMLangLezerTree from '@cookshack/codemirror-lang-lezer-tree'
 import * as CMState from '@codemirror/state'
 
 export
@@ -142,7 +141,7 @@ function mainShow
     console.log('tree covers source: ' + ((res.tree.length == state.doc.length) ? 'yes' : 'no'))
     console.log('tree length: ' + res.tree.length)
     console.log('tree:')
-    console.log(CMLangLezerTree.pretty(res.tree.topNode))
+    console.log(pretty(res.tree.topNode))
   }
 
   new Command()
@@ -176,4 +175,42 @@ function mainChk
     .option('-e, --ext <extension>', 'file ext when checking dir')
     .action(run)
     .parse()
+}
+
+function escape
+(name) {
+  return name
+    .replace('\\', '\\\\')
+    .replace('(', '\\(')
+    .replace(')', '\\)')
+    .replace(',', '\\,')
+}
+
+export
+function pretty
+(node, offset = 0, indent = 0) {
+  if (node) {
+    let ret, child, prefix
+
+    ret = ''
+    prefix = ''
+    if (indent)
+      prefix = ' '.repeat(offset)
+    offset += (node.name.length + 1)
+    child = node.firstChild
+    while (child) {
+      let str
+
+      str = pretty(child, offset, ret.length)
+      if (str) {
+        if (ret.length)
+          ret += ',\n'
+        ret += str
+      }
+      child = child.nextSibling
+    }
+
+    return prefix + escape(node.name) + (ret.length ? '(' + ret + ')' : '')
+  }
+  return ''
 }
