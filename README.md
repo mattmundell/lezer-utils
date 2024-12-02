@@ -3,7 +3,7 @@ Utils for working with [Lezer](https://lezer.codemirror.net) grammars.
 ## Requirements
 
 Your grammar package must export your `LRLanguage` as `lr`, and your support function as `language`.
-```typescript
+```js
 export const zigLanguage = LRLanguage.define({ ... })
 export function zig() {
   return new LanguageSupport(zigLanguage)
@@ -41,6 +41,16 @@ ALL GOOD
 ```
 
 ### Print a tree
+
+#### Js
+
+```js
+import { pretty } from 'lezer-utils/pretty'
+
+pretty(CMLang.syntaxTree(state).topNode)
+```
+
+#### Binary
 
 In your grammar package, add bin/show containing this:
 

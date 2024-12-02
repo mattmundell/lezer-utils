@@ -5,6 +5,16 @@
   "homepage": "https://git.sr.ht/~mattmundell/lezer-utils",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
+  "exports": {
+    "./pretty": {
+      "import": "./dist/pretty.js",
+      "require": "./dist/pretty.cjs"
+    },
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "prepare": "./node_modules/@cookshack/build/bin/prepare",
     "check": "./node_modules/@cookshack/build/bin/check *.js",
