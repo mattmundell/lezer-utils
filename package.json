@@ -2,6 +2,7 @@
   "name": "lezer-utils",
   "version": "0.1.0",
   "description": "Utils for working with Lezer grammars",
+  "homepage": "https://git.sr.ht/~mattmundell/lezer-utils",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "scripts": {
