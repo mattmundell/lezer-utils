@@ -7,6 +7,7 @@ export
 function parse
 (lr, file) {
   let tree, content
+
   content = Fs.readFileSync(file, 'utf8')
   //console.log(content)
   tree = lr.parser.parse(content)
@@ -17,14 +18,15 @@ export
 function check
 (tree) {
   let fail
+
   fail = []
-  tree.iterate({enter: node => {
+  tree.iterate({ enter: node => {
     if (node.type.isError) {
       fail.push({ from: node.from })
       return 0
     }
     return 1
-  }})
+  } })
   return fail.length ? fail : 0
 }
 

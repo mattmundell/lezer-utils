@@ -6,8 +6,9 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "rollup -c"
+    "prepare": "./node_modules/@cookshack/build/bin/prepare",
+    "check": "./node_modules/@cookshack/build/bin/check *.js",
+    "test": "true"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,11 @@
   "author": "Matt Mundell",
   "license": "MIT",
   "devDependencies": {
+    "@cookshack/build": "^0.2.0",
+    "@cookshack/eslint-config": "^0.1.6",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "husky": "^9.1.7",
     "rollup": "^4.21.2"
   },
   "dependencies": {
