@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+import { checkFileOrDir } from '../dist/index.js'
+import { Command } from 'commander'
+
+function chk
+(lr, path, opts) {
+  let count
+
+  console.log('Checking ' + path)
+  count = checkFileOrDir(lr, path, { ext: opts.ext, recurse: opts.recurse })
+  if (count) {
+    console.log('\nFAILED: ' + count + ' file')
+    process.exitCode = 2
+  }
+  else
+    console.log('\nALL GOOD')
+}
+
+function run
+(module, lr_name, path, opts) {
+  import(module).then(m => chk(m[lr_name], path, opts),
+                      err => {
+                        console.error('Failed to load ' + process.argv[2] + ': ' + err.message)
+                      })
+}
+
+new Command()
+  .description('Check a parser against a file or dir')
+  .argument('<module>', 'module to import')
+  .argument('<lr_name>', 'property of module that holds LRLanguage')
+  .argument('<path>', 'file or directory')
+  .option('-r, --recurse')
+  .option('-e, --ext <extension>', 'file ext when checking dir')
+  .action(run)
+  .parse()

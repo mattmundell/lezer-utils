@@ -18,6 +18,25 @@ export const language = zig
 
 ### Check a dir
 
+#### Dynamic
+
+Run `lzchk` with args `module`, `lr_name` and `dir`:
+
+```
+$ ./bin/lzchk ~/src/codemirror-lang-kcl/dist/index.js KclLanguage ~/src/modeling-app/src/wasm-lib/kcl/ -r --ext kcl
+
+Checking /home/you/src/modeling-app/src/wasm-lib/kcl/
+/home/you/src/modeling-app/src/wasm-lib/kcl/common.kcl (340 bytes)
+/home/you/src/modeling-app/src/wasm-lib/kcl/tests/add_lots/input.kcl (868 bytes)
+/home/you/src/modeling-app/src/wasm-lib/kcl/tests/add_lots/input.kcl:1:5: error: failed to parse
+...
+
+FAILED: 44 file
+```
+
+
+#### Static
+
 In your grammar package, add bin/chk containing this:
 
 ```js
