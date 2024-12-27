@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+import { check, parse } from '../dist/index.js'
+import { pretty } from '../dist/pretty.js'
+
+import * as CMState from '@codemirror/state'
+import { Command } from 'commander'
+import Fs from 'node:fs'
+
+function show
+(lr, path) {
+  let res, text, state
+
+  res = parse(lr, path)
+
+  text = Fs.readFileSync(path, { encoding: 'utf8' })
+  state = CMState.EditorState.create({ doc: text || '' })
+
+  console.log('tree contains error: ' + (check(res.tree) ? 'yes' : 'no'))
+  console.log('tree covers source: ' + ((res.tree.length == state.doc.length) ? 'yes' : 'no'))
+  console.log('tree length: ' + res.tree.length)
+  console.log('tree:')
+  console.log(pretty(res.tree.topNode))
+}
+
+function run
+(module, lr_name, path, opts) {
+  import(module).then(m => show(m[lr_name], path, opts),
+                      err => {
+                        console.error('Failed to load ' + process.argv[2] + ': ' + err.message)
+                      })
+}
+
+new Command()
+  .description('Show the syntax tree parsed from a file')
+  .argument('<module>', 'module to import')
+  .argument('<lr_name>', 'property of module that holds LRLanguage')
+  .argument('<path>', 'file')
+  .action(run)
+  .parse()
